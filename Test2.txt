@@ -1,0 +1,36 @@
+
+
+Entity voiture
+localhost:8990/voiture/addVoiture
+{
+    "idVoiture": 1,
+    "couleur": "Blue",
+    "puissance": 2019,
+    "marque": "BMW",
+    "modele": "X6"
+}
+Entity client
+localhost:8990/client/addClient
+{
+    "idClient": 1,
+    "nomPrenom": "Tall Mouhamadou",
+    "numPermis": "12334780",
+    "adresse": "Cite Keur Gorgui",
+    "telephone": "77452679"
+}
+Entity reservation
+localhost:8990/reservation/addReservation
+{
+    "idReservation": 1,
+    "dateDebut": "01-01-2019",
+    "dateFin": "10-01-2019",
+    "marque": "BMW",
+    "modele": "X6",
+    "client": {
+        "idClient": 1,
+        "nomPrenom": "Tall Mouhamadou",
+        "numPermis": "12334780",
+        "adresse": "Cite Keur Gorgui",
+        "telephone": "77452679"
+    }
+}

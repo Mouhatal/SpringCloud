@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: reservation-service
+          uri: lb://RESERVATION-SERVICE
+          predicates:
+            - Path=/client/**,/reservation/**
+          filters:
+          - name: CircuitBreaker
+            args:
+              name: reservation-service
+              fallbackuri: forward:/reservationFallback
+        - id: location-service
+          uri: lb://LOCATION-SERVICE
+          predicates:
+            - Path=/voiture/** #,/modele/**,/marque/**,/carburant/**
+          filters:
+          - name: CircuitBreaker
+            args:
+              name: reservation-service
+              fallbackuri: forward:/voitureFallback
+
+#From Registry
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance: localhost
+
+server:
+  port: 8990
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
